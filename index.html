@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ear Training App</title>
+  </head>
+  <body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm py-4 px-6 mb-6">
+      <h1 class="text-2xl font-bold text-center text-indigo-600">Ear Training</h1>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 max-w-3xl flex flex-col gap-6 pb-12">
+      
+      <!-- Controls Section -->
+      <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="text-lg font-semibold mb-4">Settings</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Sliders -->
+          <div class="space-y-4">
+            <div>
+              <label class="flex justify-between text-sm font-medium mb-1">
+                <span>Number of Notes</span>
+                <span id="num-notes-val" class="text-indigo-600 font-bold">4</span>
+              </label>
+              <input type="range" id="num-notes" min="1" max="4" value="4" class="w-full accent-indigo-600">
+            </div>
+            
+            <div>
+              <label class="flex justify-between text-sm font-medium mb-1">
+                <span>Octave Range</span>
+                <span id="octave-range-val" class="text-indigo-600 font-bold">1</span>
+              </label>
+              <input type="range" id="octave-range" min="1" max="3" value="1" class="w-full accent-indigo-600">
+            </div>
+          </div>
+
+          <!-- Direction -->
+          <div>
+            <label class="block text-sm font-medium mb-2">Play Direction</label>
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="direction" value="ascending" checked class="text-indigo-600 focus:ring-indigo-600">
+                <span>Ascending</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="direction" value="descending" class="text-indigo-600 focus:ring-indigo-600">
+                <span>Descending</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="direction" value="both" class="text-indigo-600 focus:ring-indigo-600">
+                <span>Both</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Utilities Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Metronome -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center">
+          <h2 class="text-lg font-semibold mb-4 w-full text-left">Metronome</h2>
+          <div class="flex items-center gap-4 w-full mb-4">
+            <button id="metro-toggle" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors flex-shrink-0">
+              <svg id="metro-play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              <svg id="metro-stop-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square hidden"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+            </button>
+            <div class="flex-grow">
+              <label class="flex justify-between text-sm font-medium mb-1">
+                <span>BPM</span>
+                <span id="bpm-val" class="font-bold">120</span>
+              </label>
+              <input type="range" id="bpm-slider" min="40" max="208" value="120" class="w-full accent-slate-600">
+            </div>
+          </div>
+          <div id="metro-indicator" class="w-4 h-4 rounded-full bg-slate-300 transition-colors duration-100"></div>
+        </section>
+
+        <!-- Timer -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center">
+          <h2 class="text-lg font-semibold mb-4 w-full text-left">Practice Timer</h2>
+          
+          <div id="timer-setup" class="flex items-center gap-2 mb-4 text-4xl font-light">
+            <input type="number" id="timer-m" min="0" max="99" value="05" class="w-20 text-center bg-slate-50 border border-slate-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <span>:</span>
+            <input type="number" id="timer-s" min="0" max="59" value="00" class="w-20 text-center bg-slate-50 border border-slate-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          
+          <div id="timer-display" class="hidden text-5xl font-mono font-light mb-4 tracking-wider">
+            05:00
+          </div>
+
+          <div class="flex gap-3">
+            <button id="timer-start" class="px-5 py-2 bg-emerald-100 text-emerald-700 rounded-full font-medium hover:bg-emerald-200 transition-colors">Start</button>
+            <button id="timer-pause" class="hidden px-5 py-2 bg-amber-100 text-amber-700 rounded-full font-medium hover:bg-amber-200 transition-colors">Pause</button>
+            <button id="timer-reset" class="px-5 py-2 bg-slate-100 text-slate-700 rounded-full font-medium hover:bg-slate-200 transition-colors">Reset</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- Action Area -->
+      <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center space-y-6">
+        <div class="flex flex-wrap justify-center gap-4">
+          <button id="btn-play" class="px-6 py-4 bg-indigo-600 text-white rounded-xl font-bold text-lg shadow-md hover:bg-indigo-700 active:scale-95 transition-all">
+            Play New Notes
+          </button>
+          <button id="btn-replay" class="px-6 py-4 bg-emerald-600 text-white rounded-xl font-bold text-lg shadow-md hover:bg-emerald-700 active:scale-95 transition-all opacity-50 cursor-not-allowed" disabled>
+            Replay Notes
+          </button>
+          <button id="btn-show" class="px-6 py-4 bg-slate-100 text-slate-800 rounded-xl font-bold text-lg shadow-sm hover:bg-slate-200 active:scale-95 transition-all opacity-50 cursor-not-allowed" disabled>
+            Show Notes
+          </button>
+        </div>
+
+        <div id="display-area" class="min-h-[100px] flex items-center justify-center bg-slate-50 rounded-xl border border-slate-200 p-4">
+          <p id="notes-text" class="text-3xl font-mono text-slate-400">Press Play to begin</p>
+        </div>
+      </section>
+
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
