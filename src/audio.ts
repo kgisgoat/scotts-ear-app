@@ -72,22 +72,3 @@ export function playSequence(notes: number[]) {
   });
 }
 
-export function playClick(time: number) {
-  const ctx = getAudioContext();
-  const osc = ctx.createOscillator();
-  const gainNode = ctx.createGain();
-  
-  osc.type = 'square';
-  osc.frequency.value = 800;
-  
-  gainNode.gain.setValueAtTime(0, time);
-  gainNode.gain.linearRampToValueAtTime(0.5, time + 0.005);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
-  
-  osc.connect(gainNode);
-  gainNode.connect(ctx.destination);
-  
-  osc.start(time);
-  osc.stop(time + 0.1);
-}
-

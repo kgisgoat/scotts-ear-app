@@ -57,49 +57,6 @@
         </div>
       </section>
 
-      <!-- Utilities Section -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Metronome -->
-        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center">
-          <h2 class="text-lg font-semibold mb-4 w-full text-left">Metronome</h2>
-          <div class="flex items-center gap-4 w-full mb-4">
-            <button id="metro-toggle" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors flex-shrink-0">
-              <svg id="metro-play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-              <svg id="metro-stop-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square hidden"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
-            </button>
-            <div class="flex-grow">
-              <label class="flex justify-between text-sm font-medium mb-1">
-                <span>BPM</span>
-                <span id="bpm-val" class="font-bold">120</span>
-              </label>
-              <input type="range" id="bpm-slider" min="40" max="208" value="120" class="w-full accent-slate-600">
-            </div>
-          </div>
-          <div id="metro-indicator" class="w-4 h-4 rounded-full bg-slate-300 transition-colors duration-100"></div>
-        </section>
-
-        <!-- Timer -->
-        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center">
-          <h2 class="text-lg font-semibold mb-4 w-full text-left">Practice Timer</h2>
-          
-          <div id="timer-setup" class="flex items-center gap-2 mb-4 text-4xl font-light">
-            <input type="number" id="timer-m" min="0" max="99" value="05" class="w-20 text-center bg-slate-50 border border-slate-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <span>:</span>
-            <input type="number" id="timer-s" min="0" max="59" value="00" class="w-20 text-center bg-slate-50 border border-slate-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          </div>
-          
-          <div id="timer-display" class="hidden text-5xl font-mono font-light mb-4 tracking-wider">
-            05:00
-          </div>
-
-          <div class="flex gap-3">
-            <button id="timer-start" class="px-5 py-2 bg-emerald-100 text-emerald-700 rounded-full font-medium hover:bg-emerald-200 transition-colors">Start</button>
-            <button id="timer-pause" class="hidden px-5 py-2 bg-amber-100 text-amber-700 rounded-full font-medium hover:bg-amber-200 transition-colors">Pause</button>
-            <button id="timer-reset" class="px-5 py-2 bg-slate-100 text-slate-700 rounded-full font-medium hover:bg-slate-200 transition-colors">Reset</button>
-          </div>
-        </section>
-      </div>
-
       <!-- Action Area -->
       <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center space-y-6">
         <div class="flex flex-wrap justify-center gap-4">
