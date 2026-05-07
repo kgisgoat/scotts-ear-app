@@ -1,7 +1,5 @@
 import { state, generateNotes, getNoteNames, Direction } from './logic';
 import { playSequence, loadInstrument } from './audio';
-import { toggleMetronome, setBpm, setMetronomeCallback } from './metronome';
-import { startTimer, resumeTimer, pauseTimer, stopTimer, setTimerCallbacks } from './timer';
 
 export function initUI() {
   // --- Settings ---
@@ -26,110 +24,6 @@ export function initUI() {
         state.direction = (e.target as HTMLInputElement).value as Direction;
       }
     });
-  });
-
-  // --- Metronome ---
-  const metroToggle = document.getElementById('metro-toggle')!;
-  const metroPlayIcon = document.getElementById('metro-play-icon')!;
-  const metroStopIcon = document.getElementById('metro-stop-icon')!;
-  const bpmSlider = document.getElementById('bpm-slider') as HTMLInputElement;
-  const bpmVal = document.getElementById('bpm-val')!;
-  const metroIndicator = document.getElementById('metro-indicator')!;
-
-  bpmSlider.addEventListener('input', (e) => {
-    const bpm = parseInt((e.target as HTMLInputElement).value, 10);
-    bpmVal.textContent = bpm.toString();
-    setBpm(bpm);
-  });
-
-  metroToggle.addEventListener('click', () => {
-    const isPlaying = toggleMetronome();
-    if (isPlaying) {
-      metroPlayIcon.classList.add('hidden');
-      metroStopIcon.classList.remove('hidden');
-    } else {
-      metroPlayIcon.classList.remove('hidden');
-      metroStopIcon.classList.add('hidden');
-    }
-  });
-
-  setMetronomeCallback(() => {
-    metroIndicator.classList.remove('bg-slate-300');
-    metroIndicator.classList.add('bg-emerald-500');
-    setTimeout(() => {
-      metroIndicator.classList.remove('bg-emerald-500');
-      metroIndicator.classList.add('bg-slate-300');
-    }, 100);
-  });
-
-  // --- Timer ---
-  const timerM = document.getElementById('timer-m') as HTMLInputElement;
-  const timerS = document.getElementById('timer-s') as HTMLInputElement;
-  const timerSetup = document.getElementById('timer-setup')!;
-  const timerDisplay = document.getElementById('timer-display')!;
-  const btnTimerStart = document.getElementById('timer-start')!;
-  const btnTimerPause = document.getElementById('timer-pause')!;
-  const btnTimerReset = document.getElementById('timer-reset')!;
-
-  let timerState: 'stopped' | 'running' | 'paused' = 'stopped';
-
-  setTimerCallbacks(
-    (timeStr) => {
-      timerDisplay.textContent = timeStr;
-    },
-    () => {
-      // Complete
-      timerState = 'stopped';
-      timerSetup.classList.remove('hidden');
-      timerDisplay.classList.add('hidden');
-      btnTimerStart.classList.remove('hidden');
-      btnTimerPause.classList.add('hidden');
-      btnTimerStart.textContent = 'Start';
-      
-      // Play a ding to notify completion
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = audioCtx.createOscillator();
-      osc.frequency.value = 880;
-      osc.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.5);
-    }
-  );
-
-  btnTimerStart.addEventListener('click', () => {
-    if (timerState === 'stopped') {
-      const m = parseInt(timerM.value, 10) || 0;
-      const s = parseInt(timerS.value, 10) || 0;
-      if (m === 0 && s === 0) return;
-      startTimer(m, s);
-      timerSetup.classList.add('hidden');
-      timerDisplay.classList.remove('hidden');
-    } else if (timerState === 'paused') {
-      resumeTimer();
-    }
-    timerState = 'running';
-    btnTimerStart.classList.add('hidden');
-    btnTimerPause.classList.remove('hidden');
-  });
-
-  btnTimerPause.addEventListener('click', () => {
-    if (timerState === 'running') {
-      pauseTimer();
-      timerState = 'paused';
-      btnTimerPause.classList.add('hidden');
-      btnTimerStart.classList.remove('hidden');
-      btnTimerStart.textContent = 'Resume';
-    }
-  });
-
-  btnTimerReset.addEventListener('click', () => {
-    stopTimer();
-    timerState = 'stopped';
-    timerSetup.classList.remove('hidden');
-    timerDisplay.classList.add('hidden');
-    btnTimerPause.classList.add('hidden');
-    btnTimerStart.classList.remove('hidden');
-    btnTimerStart.textContent = 'Start';
   });
 
   // --- Action Area ---
